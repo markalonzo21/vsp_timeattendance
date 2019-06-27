@@ -1,0 +1,137 @@
+a{
+    color: #000000;
+    text-decoration: none;
+}
+ul.navbar-nav{
+    list-style: none;
+}
+ul.navbar-nav > li a:hover{
+    text-decoration: none;
+}
+.navbar .form-control{
+	padding: .75rem 1rem;
+	border-width: 0;
+	border-radius: 0;
+}
+.bg-custom{
+	background-color: #52be80;
+}
+.navbar-brand{
+	padding-top: .75rem;
+	padding-bottom: .75rem;
+	background-color: rgba(0, 0, 0, .25);
+	box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+.sidebar-sticky {
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 1.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+[role="main"] {
+    padding-top: 48px;
+}
+
+.btn:hover{
+	background-color: #64c58d;
+}
+.btn-success:hover{
+    background-color: #009118;
+}
+.form-control:focus{
+    border-color: #009118;
+    box-shadow: 0 0 0 .2rem rgba(0,145,24,.25);
+}
+.login {
+    /*padding: 15px;
+    width: 50%;
+    margin: 0 auto;*/
+    padding: 15px;
+    width: 50%;
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.btn-login{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    background-color: #009118;
+}
+.mt_5{
+    margin-top: 5px
+}
+.login_logo{
+    margin-bottom: 15px;
+}
+
+.login_text{
+    text-align: center;
+    font-size: 45px;
+    font-style: normal;
+    margin-bottom: 0;
+}
+.img_logo{
+    display: block;
+    margin: 0 auto;
+}
+.emp_link{
+     padding: 5px 10px;
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+}
+.emp_link:hover{
+    color: #fff;
+    text-decoration: none;
+}
+.edit{
+    background-color: #009118;
+}
+.edit:hover{
+    background-color: #52be80;
+}
+.delete{
+    background-color: #d43f3a;
+}
+.delete:hover{
+    background-color: #df706d;
+}
+.bg-green{
+    background-color: #28a745;
+}
+.modal-content{
+    border: 0;
+}
+.outline-custom{
+    color: #000;
+    border-color: #52be80;
+}
+.outline-custom > a:hover{
+    color: #000;
+    text-decoration: none;
+}
+.outline-custom:hover{
+    color: #000;
+}
+.outline-custom:focus{
+    box-shadow: 0 0 0 .2rem rgba(0,145,24,.25);
+}
