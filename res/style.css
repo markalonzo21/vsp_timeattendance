@@ -44,6 +44,10 @@ ul.navbar-nav > li a:hover{
     overflow-x: hidden;
     overflow-y: auto;
 }
+.active, .menu:hover{
+    background-color: #dcdfe0;
+    border-right: 2px solid #a9afb3;
+}
 [role="main"] {
     padding-top: 48px;
 }

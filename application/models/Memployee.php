@@ -110,18 +110,17 @@ class Memployee extends CI_Model
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	    curl_setopt($ch, CURLOPT_TIMEOUT, 6000);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 	    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
 	    $data = curl_exec($ch);
 
 	    if(curl_errno($ch))
 	    {
-	    	 // print "Error" .curl_error($ch);
+	    	print "Error" .curl_error($ch);
 	    	// print "Error no Internet Connection";
-	    	$data = curl_exec($ch);
+	    	// $data = curl_exec($ch);
 	    }
 	    else
 	    {
