@@ -69,30 +69,34 @@ class Report extends CI_Controller
 		}
 	}
 
+	// Template Report
 	public function generateReport()
 	{
 		$data = $this->mreport->all();
 		// $spreadsheet = new Spreadsheet();
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
+		
+		// TIME LOGS START HERE
 		$col = 6;
 		for($i = 0; $i < count($data); $i++)
 		{
+			// name
 			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(3, $col, $data[$i]['emp_name']);
+			// date
 			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(8, $col, date('m/d/Y', strtotime($data[$i]['date_recognized']["date"]) ));
+			// time
 			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(6, $col, date('H:i:s A', strtotime($data[$i]['date_recognized']["time"]) ));
+			// idclass
 			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(11, $col, $data[$i]['idClass']);
+			// source
 			$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(13, $col, ( array_key_exists('source', $data[$i]) ) ? $data[$i]['source'] : "N/A" );
 	        $col++;
         }
+        //  TIME LOGS ENDS HERE
 
+        // DAILY TIME IN AND OUT START HERE
         $data = $this->mreport->distinct_all();
-        // $name_col = 6;
-        // for ($i=0; $i < count($names); $i++) { 
-        // 	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(15, $name_col, $names[$i]);
-        // }
         $column_array = array_chunk($data["names"], 1);
-        // $column_array_in = array_chunk($data["time_ins"], 1);
-        // $column_array_out = array_chunk($data["time_outs"], 1);
         $dailies_col = 6;
         $spreadsheet->getActiveSheet()->fromArray($column_array, NULL, 'O6');
         for ($i=0; $i < count($column_array); $i++) {
@@ -101,35 +105,96 @@ class Report extends CI_Controller
         	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, (strtotime($data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($data["time_ins"][$i][0]['date_recognized']["time"]))/3600 );
         	$dailies_col++;
         }
+        // DAILY TIME IN AND OUT ENDS HERE
+
+        // create xls file
         $writer = new Xls($spreadsheet);
-
+        // filename
         $filename = 'time_attendance_'.date('m/d/Y').'.xls';
-
+        // headers
         header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="'.$filename.'"');
 		header('Cache-Control: max-age=0');
 
 		ob_end_clean();
-
+		// force download xls file
 		$writer->save('php://output');
 	}
 
-	public function rangeReport()
-	{
-		if(isset($_POST["dateRange"])){
-			$dates = explode(' - ', $_POST["dateRange"]);
-			// echo $dates[0].' and '.$dates[1];
-			$this->mreport->generateReportByRange($dates);
-		}
-		else
-		{
-			echo 'no data';
-		}
-	}
+	// public function rangeReport()
+	// {
+	// 	if(isset($_POST["dateRange"]))
+	// 	{
+	// 		$dates = explode(' - ', $_POST["dateRange"]);
+	// 		$data = $this->mreport->generateReportByRange($dates);
+
+	// 		if($data)
+	// 		{
+	// 			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
+		
+	// 			// TIME LOGS START HERE
+	// 			$col = 6;
+	// 			for($i = 0; $i < count($data); $i++)
+	// 			{
+	// 				// name
+	// 				$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(3, $col, $data[$i]['emp_name']);
+	// 				// date
+	// 				$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(8, $col, date('m/d/Y', strtotime($data[$i]['date_recognized']["date"]) ));
+	// 				// time
+	// 				$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(6, $col, date('H:i:s A', strtotime($data[$i]['date_recognized']["time"]) ));
+	// 				// idclass
+	// 				$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(11, $col, $data[$i]['idClass']);
+	// 				// source
+	// 				$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(13, $col, ( array_key_exists('source', $data[$i]) ) ? $data[$i]['source'] : "N/A" );
+	// 		        $col++;
+	// 	        }
+	// 	        //  TIME LOGS ENDS HERE
+
+	// 	        // DAILY TIME IN AND OUT START HERE
+	// 	        $data = $this->mreport->distinct_all();
+	// 	        $column_array = array_chunk($data["names"], 1);
+	// 	        $dailies_col = 6;
+	// 	        $spreadsheet->getActiveSheet()->fromArray($column_array, NULL, 'O6');
+	// 	        for ($i=0; $i < count($column_array); $i++) {
+	// 	        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(19, $dailies_col, date('H:i:s A', strtotime($data["time_ins"][$i][0]['date_recognized']["time"])) );
+	// 	        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s A', strtotime($data["time_outs"][$i][0]['date_recognized']["time"])) );
+	// 	        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, (strtotime($data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($data["time_ins"][$i][0]['date_recognized']["time"]))/3600 );
+	// 	        	$dailies_col++;
+	// 	        }
+	// 	        // DAILY TIME IN AND OUT ENDS HERE
+
+	// 	        // create xls file
+	// 	        $writer = new Xls($spreadsheet);
+	// 	        // filename
+	// 	        $filename = 'time_attendance_'.date('m/d/Y').'.xls';
+	// 	        // headers
+	// 	        header('Content-Type: application/vnd.ms-excel');
+	// 			header('Content-Disposition: attachment;filename="'.$filename.'"');
+	// 			header('Cache-Control: max-age=0');
+
+	// 			ob_end_clean();
+	// 			// force download xls file
+	// 			$writer->save('php://output');
+
+	// 		}
+	// 		else
+	// 		{
+	// 			echo 'no data';
+	// 		}
+
+	// 	}
+	// 	else
+	// 	{
+	// 		echo 'no data';
+	// 	}
+	// }
 
 	public function testing()
 	{
-		$this->mreport->distinct_all();
+		$dates = array('06/30/2019','07/01/2019');
+		$data = $this->mreport->generateReportByRange($dates);
+		var_dump($data);
+		// $this->mreport->distinct_all();
 		// var_dump((strtotime('10:12:49 AM') - strtotime('03:19:43 AM'))/3600);
 		// $this->mreport->all();
 		// (date('h:i:s', strtotime($data["time_outs"][$i][0]['date_recognized'])) - date('h:i:s', strtotime($data["time_ins"][$i][0]['date_recognized'])))

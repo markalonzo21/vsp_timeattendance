@@ -10,6 +10,8 @@
 // 	});
 // }
 
+
+
 function pollEvent(timestamp){
 
 	var lastModData = timestamp;
@@ -20,8 +22,17 @@ function pollEvent(timestamp){
 		success: function(data){
 			// console.log(data);
 			lastModData = data;
+			if(data == null || data == '')
+			{
+				lastModData = timestamp;
+			}
+			else
+			{
+				lastModData = data;
+			}
 			// getEvent(lastModData);
 			pollEvent(lastModData);
+			sleep(60);
 		}
 	});
 }
@@ -41,6 +52,8 @@ function pollEvent(timestamp){
 // // 	});
 // // }
 $(document).ready(function(){
+
+pollEvent(new Date().getTime());
 
 	$('#dateRange').datepicker({
 		language: 'en',
@@ -69,9 +82,9 @@ $(document).ready(function(){
 	setInterval(function(){
 		$("#notif").load("employee/trackRecord");
 	}, 10000);
-	setInterval(function(){
-		pollEvent(new Date().getTime());
-	}, 60000);
+	// setInterval(function(){
+	// 	pollEvent(new Date().getTime());
+	// }, 60000);
 
 	// $("#genReport").on("click", function(){
 	// 	$.ajax({
@@ -96,7 +109,5 @@ $(document).ready(function(){
  //    $('.menu').removeClass("active");
  //    $(this).addClass("active");
 	// });
-
-	pollEvent(new Date().getTime());
 });
 

@@ -118,7 +118,12 @@ class Memployee extends CI_Model
 
 	    if(curl_errno($ch))
 	    {
-	    	print "Error" .curl_error($ch);
+	    	$info = curl_getinfo($ch);
+			if($info["http_code"] == 0)
+			{
+				echo round(microtime(true) * 1000);
+			}
+	    	// print "Error" .curl_error($ch);
 	    	// print "Error no Internet Connection";
 	    	// $data = curl_exec($ch);
 	    }

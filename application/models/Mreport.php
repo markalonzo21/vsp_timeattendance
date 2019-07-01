@@ -30,8 +30,18 @@ class Mreport extends CI_Model
 		return $data;
 	}
 
+	// public function distinct_range($dates)
+	// {
+	// 	$start_date = $dates[0];
+	// 	$end_date = $dates[1];
+	// 	$names = $this->mongo_db->where_between('date_recognized.date', $start_date, $end_date)->get('time_logs');
+	// }
+
 	public function generateReportByRange($dates)
 	{
-		
+		$start_date = $dates[0];
+		$end_date = $dates[1];
+		return $this->mongo_db->where_between('date_recognized.date', $start_date, $end_date)->get('time_logs');
+		// var_dump($data);
 	}
 }
