@@ -139,3 +139,13 @@ ul.navbar-nav > li a:hover{
 .outline-custom:focus{
     box-shadow: 0 0 0 .2rem rgba(0,145,24,.25);
 }
+#genReport{
+    display: inline-block;
+    margin-right: 2px;
+    margin-bottom: 4px;
+    padding: 5.8px 10px;
+}
+#dateRange{
+    width: auto;
+    display: inline-block;
+}

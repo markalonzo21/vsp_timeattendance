@@ -11,7 +11,8 @@
 	<title>Time Attendance</title>
 	<link rel="shortcut icon" href="<?php echo site_url('res/img/vsp_logo2.png');?>" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<!-- <link rel="stylesheet" href="<?php echo site_url('res/css/bootstrap.min.css'); ?>" type="text/css"> -->
+	<!-- <link rel="stylesheet" href="<?php //echo site_url('res/css/bootstrap.min.css'); ?>" type="text/css"> -->
+	<link rel="stylesheet" href="<?php echo site_url('res/css/datepicker.min.css'); ?>" type="text/css">
 	<link rel="stylesheet" href="<?php echo site_url('res/style.css'); ?>" type="text/css">
 
 
@@ -21,6 +22,8 @@
 
 <!--  <script src="<?php // echo site_url('res/js/jquery-3.4.1.min.js'); ?>"></script>
 <script src="<?php // echo site_url('res/js/bootstrap.min.js'); ?>"></script> -->
+<script src="<?php  echo site_url('res/js/datepicker.min.js'); ?>"></script>
+<script src="<?php  echo site_url('res/js/i18n/datepicker.en.js'); ?>"></script>
 <script src="<?php  echo site_url('res/script.js'); ?>"></script>
 </head>
 <body>

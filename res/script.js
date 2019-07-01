@@ -10,21 +10,21 @@
 // 	});
 // }
 
-// function pollEvent(timestamp){
+function pollEvent(timestamp){
 
-// 	var lastModData = timestamp;
+	var lastModData = timestamp;
 
-// 	$.ajax({
-// 		type: 'GET',
-// 		url: 'report/pollEvent/'+lastModData,
-// 		success: function(data){
-// 			// console.log(data);
-// 			lastModData = data;
-// 			getEvent(lastModData);
-// 			pollEvent(lastModData);
-// 		}
-// 	});
-// }
+	$.ajax({
+		type: 'GET',
+		url: 'report/pollEvent/'+lastModData,
+		success: function(data){
+			// console.log(data);
+			lastModData = data;
+			// getEvent(lastModData);
+			pollEvent(lastModData);
+		}
+	});
+}
 
 // // function display_logs(){
 // // 	$.ajax({
@@ -41,6 +41,29 @@
 // // 	});
 // // }
 $(document).ready(function(){
+
+	$('#dateRange').datepicker({
+		language: 'en',
+		range: true,
+		position: 'left top',
+		multipleDatesSeparator: ' - ',
+		toggleSelected: false
+
+	}).on('keydown', function(e){
+		if(e.keyCode === 13)
+		{
+			$.ajax({
+				type: 'POST',
+				url: 'report/rangeReport',
+				data: {dateRange: $(this).val()},
+				dataType: 'text',
+				success: function(res){
+					console.log(res);
+				}
+			});
+		}
+	});
+
 	$("#notif").load("employee/trackRecord");
 
 	setInterval(function(){
@@ -74,6 +97,6 @@ $(document).ready(function(){
  //    $(this).addClass("active");
 	// });
 
-	// pollEvent(new Date().getTime());
+	pollEvent(new Date().getTime());
 });
 
