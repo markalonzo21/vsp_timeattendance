@@ -18,6 +18,11 @@
         </div>
 		</div>
 	</div>
+	<div class="emp-no">
+		<div class="alert alert-secondary" role="alert">
+			<h4>Employee No.: <?php echo count($result);?></h4>
+		</div>
+	</div>
 	<div class="table-responsive">
 		<table class="table table-striped table-sm">
 			<thead>

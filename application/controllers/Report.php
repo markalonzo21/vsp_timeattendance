@@ -61,7 +61,8 @@ class Report extends CI_Controller
 							'time' => date('H:i:s')
 						),
 						'idClass' => $data[$i]["idClass"],
-						'source' => $data[$i]["sourceId"]
+						'source' => $data[$i]["sourceId"],
+						'device' => 'Web'
 					);
 					$this->mreport->logs($inputs);
 				}
