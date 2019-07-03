@@ -21,17 +21,14 @@ function pollEvent(timestamp){
 		url: 'report/pollEvent/'+lastModData,
 		success: function(data){
 			// console.log(data);
-			lastModData = data;
-			if(data == null || data == '')
-			{
-				lastModData = timestamp;
-			}
-			else
-			{
-				lastModData = data;
-			}
-			// getEvent(lastModData);
-			pollEvent(lastModData);
+			// lastModData = data;
+			// if(data == null || data === '')
+			// {
+			// 	lastModData = timestamp;
+			// }
+			console.log(data);
+			// // getEvent(lastModData);
+			pollEvent(data);
 		}
 	});
 }
@@ -53,8 +50,32 @@ function pollEvent(timestamp){
 
 $(document).ready(function(){
 
+	$('#dateRange').datepicker({
+		language: 'en',
+		range: true,
+		position: 'left top',
+		multipleDatesSeparator: ' - ',
+		toggleSelected: false
+	});
+	// }).on('keydown', function(e){
+	// 	if(e.keyCode === 13)
+	// 	{
+	// 		$.ajax({
+	// 			type: 'POST',
+	// 			url: 'report/rangeReport',
+	// 			data: {dateRange: $(this).val()},
+	// 			dataType: 'text',
+	// 			success: function(res){
+	// 				console.log(res);
+	// 			}
+	// 		});
+	// 	}
+	// });
+
+	pollEvent();
+
 	var ctx = $("#myChart")[0].getContext('2d');
-		console.log(ctx);
+		// console.log(ctx);
 	var myChart = new Chart(ctx, {
 	    type: 'bar',
 	    data: {
@@ -96,33 +117,10 @@ $(document).ready(function(){
 
 // pollEvent(new Date().getTime());
 
-	$('#dateRange').datepicker({
-		language: 'en',
-		range: true,
-		position: 'left top',
-		multipleDatesSeparator: ' - ',
-		toggleSelected: false
-
-	}).on('keydown', function(e){
-		if(e.keyCode === 13)
-		{
-			$.ajax({
-				type: 'POST',
-				url: 'report/rangeReport',
-				data: {dateRange: $(this).val()},
-				dataType: 'text',
-				success: function(res){
-					console.log(res);
-				}
-			});
-		}
-	});
-
 	$("#notif").load("employee/trackRecord");
 
 	setInterval(function(){
 		$("#notif").load("employee/trackRecord");
-		pollEvent(new Date().getTime());
 	}, 10000);
 	// setInterval(function(){
 	// 	pollEvent(new Date().getTime());

@@ -40,6 +40,7 @@ class Report extends CI_Controller
 		}
 		$data = $this->memployee->cloudDataEventsPoll($timestamp);
 		$this->events($data);
+		echo $data;
 	}
 
 	//live feed from cloud data
@@ -103,7 +104,7 @@ class Report extends CI_Controller
         for ($i=0; $i < count($column_array); $i++) {
         	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(19, $dailies_col, date('H:i:s A', strtotime($data["time_ins"][$i][0]['date_recognized']["time"])) );
         	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s A', strtotime($data["time_outs"][$i][0]['date_recognized']["time"])) );
-        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, (strtotime($data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($data["time_ins"][$i][0]['date_recognized']["time"]))/3600 );
+        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, number_format(((strtotime($data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($data["time_ins"][$i][0]['date_recognized']["time"]))/3600), 2)  );
         	$dailies_col++;
         }
         // DAILY TIME IN AND OUT ENDS HERE
