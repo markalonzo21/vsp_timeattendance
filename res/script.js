@@ -1,17 +1,3 @@
-// function getEvent(timestamp) {
-// 	$.ajax({
-// 		type: 'GET',
-// 		url: 'report/events/'+timestamp,
-// 		success: function(data){
-// 			//var obj = jQuery.parseJSON(data);
-// 			// console.log(data);
-// 			// display_logs();
-// 		}
-// 	});
-// }
-
-
-
 function pollEvent(timestamp){
 
 	var lastModData = timestamp;
@@ -26,7 +12,7 @@ function pollEvent(timestamp){
 			// {
 			// 	lastModData = timestamp;
 			// }
-			console.log(data);
+			// console.log(data);
 			// // getEvent(lastModData);
 			pollEvent(data);
 		}
@@ -50,6 +36,12 @@ function pollEvent(timestamp){
 
 $(document).ready(function(){
 
+	$('#genReport').click(function(){
+		var date_range = $("#dateRange").val();
+		var coded = $.base64.encode(date_range);
+		window.location = "http://localhost/timeattendance/report/generateReport/"+coded;
+	});
+
 	$('#dateRange').datepicker({
 		language: 'en',
 		range: true,
@@ -57,20 +49,6 @@ $(document).ready(function(){
 		multipleDatesSeparator: ' - ',
 		toggleSelected: false
 	});
-	// }).on('keydown', function(e){
-	// 	if(e.keyCode === 13)
-	// 	{
-	// 		$.ajax({
-	// 			type: 'POST',
-	// 			url: 'report/rangeReport',
-	// 			data: {dateRange: $(this).val()},
-	// 			dataType: 'text',
-	// 			success: function(res){
-	// 				console.log(res);
-	// 			}
-	// 		});
-	// 	}
-	// });
 
 	pollEvent();
 

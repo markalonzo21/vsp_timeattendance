@@ -22,8 +22,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
 
-<!--  <script src="<?php // echo site_url('res/js/jquery-3.4.1.min.js'); ?>"></script>
-<script src="<?php // echo site_url('res/js/bootstrap.min.js'); ?>"></script> -->
+ <script src="<?php echo site_url('res/js/jquery.base64.min.js'); ?>"></script>
+<script src="<?php // echo site_url('res/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php  echo site_url('res/js/datepicker.min.js'); ?>"></script>
 <script src="<?php  echo site_url('res/js/i18n/datepicker.en.js'); ?>"></script>
 <script type="text/javascript" src="<?php  echo site_url('res/script.js'); ?>"></script>
