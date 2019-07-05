@@ -62,13 +62,13 @@ class Mreport extends CI_Model
 					$millis = strtotime("+".$x." day", strtotime($dateRange[0]));
 					$index = date('m/d/Y', $millis);
 
-					$data[$index]["time_ins"][] = $this->mongo_db->where(array('emp_name' => $names[$i],
+					$data["time_ins"][] = $this->mongo_db->where(array('emp_name' => $names[$i],
 					'date_recognized.date' => $index))
 					->limit(1)
 					->select(array('date_recognized', 'emp_name'), array('_id'))
 					->get('time_logs');
 
-					$data[$index]["time_outs"][] = $this->mongo_db->where(array('emp_name' => $names[$i],
+					$data["time_outs"][] = $this->mongo_db->where(array('emp_name' => $names[$i],
 					'date_recognized.date' => $index))
 					->order_by(array("date_recognized" => FALSE))
 					->limit(1)

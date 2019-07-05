@@ -89,67 +89,83 @@ class Report extends CI_Controller
 		// $spreadsheet = new Spreadsheet();
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
 		// /////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// $dateRange = explode(" - ", $range_date);
-		// $diff = (strtotime($dateRange[1]) - strtotime($dateRange[0]))/86400;
+		$dateRange = explode(" - ", $range_date);
+		$diff = (strtotime($dateRange[1]) - strtotime($dateRange[0]))/86400;
 		
-		// for($i = 0; $i <= $diff; $i++)
-		// {
-		// 	$date = strtotime("+".$i." day", strtotime($dateRange[0]));
-		// 	$title = date('m-d-Y', $date);
-		// 	${"worksheet$i"} = clone $spreadsheet->getSheetByName('Sheet1');
-		// 	${"worksheet$i"}->setTitle($title);
+		for($i = 0; $i <= $diff; $i++)
+		{
+			$date = strtotime("+".$i." day", strtotime($dateRange[0]));
+			$title = date('m-d-Y', $date);
+			${"worksheet$i"} = clone $spreadsheet->getSheetByName('Sheet1');
+			${"worksheet$i"}->setTitle($title);
+			$spreadsheet->addSheet(${"worksheet$i"});
+			$spreadsheet->setActiveSheetIndexByName($title);
 
-		// 	// TIME LOGS START HERE
-		// 	$col = 6;
-		// 	for($i = 0; $i < count($data); $i++)
-		// 	{
-		// 		// name
-		// 		${"worksheet$i"}->getActiveSheet()->setCellValueByColumnAndRow(3, $col, $data[$i]['emp_name']);
-		// 		// date
-		// 		${"worksheet$i"}->getActiveSheet()->setCellValueByColumnAndRow(8, $col, date('m/d/Y', strtotime($data[$i]['date_recognized']["date"]) ));
-		// 		// time
-		// 		${"worksheet$i"}->getActiveSheet()->setCellValueByColumnAndRow(6, $col, date('H:i:s', strtotime($data[$i]['date_recognized']["time"]) ));
-		// 		// idclass
-		// 		${"worksheet$i"}->getActiveSheet()->setCellValueByColumnAndRow(11, $col, $data[$i]['idClass']);
-		// 		// source
-		// 		${"worksheet$i"}->getActiveSheet()->setCellValueByColumnAndRow(13, $col, ( array_key_exists('source', $data[$i]) ) ? $data[$i]['source'] : "N/A" );
-		//         $col++;
-	 //        }
-	 //        //  TIME LOGS ENDS HERE
+			$new_title = date('d/m/Y', strtotime($title));
+			// TIME LOGS START HERE
+			$col = 6;
+			for($x = 0; $x < count($data); $x++)
+			{
+				// var_dump($new_title);
+				if($data[$x]['date_recognized']["date"] == $new_title)
+				{
+					// name
+					$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(3, $col, $data[$x]['emp_name']);
+					// date
+					$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(8, $col, date('m/d/Y', strtotime($data[$x]['date_recognized']["date"]) ));
+					// time
+					$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(6, $col, date('H:i:s', strtotime($data[$x]['date_recognized']["time"]) ));
+					// idclass
+					$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(11, $col, $data[$x]['idClass']);
+					// source
+					$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(13, $col, ( array_key_exists('source', $data[$x]) ) ? $data[$x]['source'] : "N/A" );
+			        $col++;
+				}
+	        }
+	        //  TIME LOGS ENDS HERE
 
-	 //        $spreadsheet->addSheet(${"worksheet$i"});
-		// }
+	        // DAILY TIME IN AND OUT START HERE
+	        // $distinct_data = $this->mreport->distinct_all();
+	        // $column_array = array_chunk($distinct_data["names"], 1);
+	        $dailies_col = 6;
+	        // $spreadsheet->getActiveSheet()->fromArray($column_array, NULL, 'O6');
+	        // for($y = 0; $y < count($distinct_data["names"]); $y++)
+	        // {
+	        // 	if($distinct_data["time_ins"][$y][0]['date_recognized']["date"] == $new_title)
+	        // 	{
+	        // 		$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(15, $dailies_col, $distinct_data["time_ins"][$i][0]["emp_name"]);
+		       // 		$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(19, $dailies_col, date('H:i:s', strtotime($distinct_data["time_ins"][$i][0]['date_recognized']["time"])) );
+		       //  	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s', strtotime($distinct_data["time_outs"][$i][0]['date_recognized']["time"])) );
+		       //  	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, number_format(((strtotime($distinct_data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($distinct_data["time_ins"][$i][0]['date_recognized']["time"]))/3600), 2)  );
+	        // 		$dailies_col++;
+	        // 	}
+	        // }
+	        for($y = 0; $y < count($distinct_data["time_ins"]); $y++)
+	        {
+	        	for($z = 0; $z < count($distinct_data["names"]); $z++)
+	        	{
+	        		if(!empty($distinct_data["time_ins"][$y]))
+	        		{
+	        			if($distinct_data["time_ins"][$y][0]["date_recognized"]["date"] == $new_title)
+		        		{
+		   					if($distinct_data["time_ins"][$y][0]["emp_name"] == $distinct_data["names"][$z])
+		   					{
+		   						$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(15, $dailies_col, $distinct_data["time_ins"][$y][0]["emp_name"]);
+		   						$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(19, $dailies_col, date('H:i:s', strtotime($distinct_data["time_ins"][$y][0]['date_recognized']["time"])) );
+					        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s', strtotime($distinct_data["time_outs"][$y][0]['date_recognized']["time"])) );
+					        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, number_format(((strtotime($distinct_data["time_outs"][$y][0]['date_recognized']["time"]) - strtotime($distinct_data["time_ins"][$y][0]['date_recognized']["time"]))/3600), 2)  );
+				        		$dailies_col++;
+		   					}   			
+		        		}
+	        		}
+	        		
+	        	}
+	        }
+	        // DAILY TIME IN AND OUT ENDS HERE
+		}
 
-		// TIME LOGS START HERE
-		// $col = 6;
-		// for($i = 0; $i < count($data); $i++)
-		// {
-		// 	// name
-		// 	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(3, $col, $data[$i]['emp_name']);
-		// 	// date
-		// 	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(8, $col, date('m/d/Y', strtotime($data[$i]['date_recognized']["date"]) ));
-		// 	// time
-		// 	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(6, $col, date('H:i:s', strtotime($data[$i]['date_recognized']["time"]) ));
-		// 	// idclass
-		// 	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(11, $col, $data[$i]['idClass']);
-		// 	// source
-		// 	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(13, $col, ( array_key_exists('source', $data[$i]) ) ? $data[$i]['source'] : "N/A" );
-	 //        $col++;
-  //       }
-  //       //  TIME LOGS ENDS HERE
-
-  //       // DAILY TIME IN AND OUT START HERE
-  //       // $distinct_data = $this->mreport->distinct_all();
-  //       $column_array = array_chunk($distinct_data["names"], 1);
-  //       $dailies_col = 6;
-  //       $spreadsheet->getActiveSheet()->fromArray($column_array, NULL, 'O6');
-  //       for ($i=0; $i < count($column_array); $i++) {
-  //       	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(19, $dailies_col, date('H:i:s', strtotime($distinct_data["time_ins"][$i][0]['date_recognized']["time"])) );
-  //       	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s', strtotime($distinct_data["time_outs"][$i][0]['date_recognized']["time"])) );
-  //       	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, number_format(((strtotime($distinct_data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($distinct_data["time_ins"][$i][0]['date_recognized']["time"]))/3600), 2)  );
-  //       	$dailies_col++;
-  //       }
-        // DAILY TIME IN AND OUT ENDS HERE
+		$hiddenSheet = $spreadsheet->getSheetByName('Sheet1');
+		$hiddenSheet->setSheetState(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet::SHEETSTATE_VERYHIDDEN);
 
         // create xls file
         $writer = new Xls($spreadsheet);
@@ -167,8 +183,9 @@ class Report extends CI_Controller
 
 	public function testing()
 	{
-		$distinct_data = $this->mreport->distinct_range("07/03/2019 - 07/04/2019");
-		var_dump($distinct_data["07/04/2019"]);
+		$distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");
+		// var_dump($distinct_data);
+		var_dump($distinct_data["time_ins"]);
 		// for($i=0; $i < 8; $i++){
 		// 	$date = strtotime("+".$i." day", strtotime("07/03/2019"));
 		// 	echo date('m/d/Y', $date)." - ";
