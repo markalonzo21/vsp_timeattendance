@@ -6,14 +6,6 @@ function pollEvent(timestamp){
 		type: 'GET',
 		url: 'report/pollEvent/'+lastModData,
 		success: function(data){
-			// console.log(data);
-			// lastModData = data;
-			// if(data == null || data === '')
-			// {
-			// 	lastModData = timestamp;
-			// }
-			// console.log(data);
-			// // getEvent(lastModData);
 			pollEvent(data);
 		}
 	});
@@ -93,25 +85,11 @@ $(document).ready(function(){
 	    }
 	});
 
-// pollEvent(new Date().getTime());
-
 	$("#notif").load("employee/trackRecord");
 
 	setInterval(function(){
 		$("#notif").load("employee/trackRecord");
 	}, 10000);
-	// setInterval(function(){
-	// 	pollEvent(new Date().getTime());
-	// }, 60000);
-
-	// $("#genReport").on("click", function(){
-	// 	$.ajax({
-	// 		url: 'report/generateReport',
-	// 		success: function(data){
-	// 			console.log('gen success');
-	// 		}
-	// 	});
-	// });
 
 	// Add active class to the current button (highlight it)
 	// var header = document.getElementById("sidebar-menu");
@@ -124,8 +102,11 @@ $(document).ready(function(){
 	//   });
 	// }
 	// $('.menu').click(function(){
- //    $('.menu').removeClass("active");
- //    $(this).addClass("active");
+ //    	$('.menu').removeClass("active");
+ //    	$(this).addClass("active");
 	// });
+	$('#sidebar-menu li').on('click',function(){
+		$(this).addClass('active').siblings().removeClass('active');
+	});
 });
 

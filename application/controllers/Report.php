@@ -91,17 +91,7 @@ class Report extends CI_Controller
 		}
 			$data = $this->mreport->getReport($range_date);
 			$distinct_data = $this->mreport->distinct_range($range_date);
-		// else
-		// {
-		// 	$data = $this->mreport->all();
-		// 	$distinct_data = $this->mreport->distinct_all();
-
-		// 	$dates = $this->mreport->getAllDate();
-		// 	$diff = (strtotime($dates[1][0]["date_recognized"]["date"] - strtotime($dates[0][0]["date_recognized"]["date"])))/86400;
-		// 	$start_date = $dates[0][0]["date_recognized"]["date"];
-		// }
-
-		// $spreadsheet = new Spreadsheet();
+			
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
 		// /////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -184,6 +174,7 @@ class Report extends CI_Controller
 
 	public function testing()
 	{
+		var_dump($this->mreport->distinct_dates());
 		// $data = $this->mreport->getAllDate();
 		// var_dump($data[0][0]["date_recognized"]["date"]);
 		// $distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");
