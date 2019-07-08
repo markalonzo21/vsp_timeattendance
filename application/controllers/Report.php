@@ -72,29 +72,43 @@ class Report extends CI_Controller
 	}
 
 	// Template Report
-	public function generateReport($date)
+	public function generateReport($date=null)
 	{
-		$range_date = base64_decode($date);
-		if(isset($range_date))
+		if(isset($date))
 		{
-			$data = $this->mreport->getReport($range_date);
-			$distinct_data = $this->mreport->distinct_range($range_date);
+			$range_date = base64_decode($date);
+			$dateRange = explode(" - ", $range_date);
+			$diff = (strtotime($dateRange[1]) - strtotime($dateRange[0]))/86400;
+			$start_date = $dateRange[0];
 		}
 		else
 		{
-			$data = $this->mreport->all();
-			$distinct_data = $this->mreport->distinct_all();
+			$dates = $this->mreport->getAllDate();
+			$start_date = $dates[0][0]["date_recognized"]["date"];
+			$end_date = $dates[1][0]["date_recognized"]["date"];
+			$diff = (strtotime($end_date) - strtotime($start_date))/86400;
+			$range_date = $start_date." - ".$end_date;
 		}
+			$data = $this->mreport->getReport($range_date);
+			$distinct_data = $this->mreport->distinct_range($range_date);
+		// else
+		// {
+		// 	$data = $this->mreport->all();
+		// 	$distinct_data = $this->mreport->distinct_all();
+
+		// 	$dates = $this->mreport->getAllDate();
+		// 	$diff = (strtotime($dates[1][0]["date_recognized"]["date"] - strtotime($dates[0][0]["date_recognized"]["date"])))/86400;
+		// 	$start_date = $dates[0][0]["date_recognized"]["date"];
+		// }
 
 		// $spreadsheet = new Spreadsheet();
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
 		// /////////////////////////////////////////////////////////////////////////////////////////////////////////
-		$dateRange = explode(" - ", $range_date);
-		$diff = (strtotime($dateRange[1]) - strtotime($dateRange[0]))/86400;
+		
 		
 		for($i = 0; $i <= $diff; $i++)
 		{
-			$date = strtotime("+".$i." day", strtotime($dateRange[0]));
+			$date = strtotime("+".$i." day", strtotime($start_date));
 			$title = date('m-d-Y', $date);
 			${"worksheet$i"} = clone $spreadsheet->getSheetByName('Sheet1');
 			${"worksheet$i"}->setTitle($title);
@@ -125,21 +139,8 @@ class Report extends CI_Controller
 	        //  TIME LOGS ENDS HERE
 
 	        // DAILY TIME IN AND OUT START HERE
-	        // $distinct_data = $this->mreport->distinct_all();
-	        // $column_array = array_chunk($distinct_data["names"], 1);
 	        $dailies_col = 6;
-	        // $spreadsheet->getActiveSheet()->fromArray($column_array, NULL, 'O6');
-	        // for($y = 0; $y < count($distinct_data["names"]); $y++)
-	        // {
-	        // 	if($distinct_data["time_ins"][$y][0]['date_recognized']["date"] == $new_title)
-	        // 	{
-	        // 		$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(15, $dailies_col, $distinct_data["time_ins"][$i][0]["emp_name"]);
-		       // 		$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(19, $dailies_col, date('H:i:s', strtotime($distinct_data["time_ins"][$i][0]['date_recognized']["time"])) );
-		       //  	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s', strtotime($distinct_data["time_outs"][$i][0]['date_recognized']["time"])) );
-		       //  	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, number_format(((strtotime($distinct_data["time_outs"][$i][0]['date_recognized']["time"]) - strtotime($distinct_data["time_ins"][$i][0]['date_recognized']["time"]))/3600), 2)  );
-	        // 		$dailies_col++;
-	        // 	}
-	        // }
+
 	        for($y = 0; $y < count($distinct_data["time_ins"]); $y++)
 	        {
 	        	for($z = 0; $z < count($distinct_data["names"]); $z++)
@@ -183,19 +184,9 @@ class Report extends CI_Controller
 
 	public function testing()
 	{
-		$distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");
-		// var_dump($distinct_data);
-		var_dump($distinct_data["time_ins"]);
-		// for($i=0; $i < 8; $i++){
-		// 	$date = strtotime("+".$i." day", strtotime("07/03/2019"));
-		// 	echo date('m/d/Y', $date)." - ";
-		// }
-		// $dates = array('06/30/2019','07/01/2019');
-		// $data = $this->mreport->generateReportByRange($dates);
-		// var_dump($data);
-		// $this->mreport->distinct_all();
-		// var_dump((strtotime('10:12:49 AM') - strtotime('03:19:43 AM'))/3600);
-		// $this->mreport->all();
-		// (date('h:i:s', strtotime($data["time_outs"][$i][0]['date_recognized'])) - date('h:i:s', strtotime($data["time_ins"][$i][0]['date_recognized'])))
+		// $data = $this->mreport->getAllDate();
+		// var_dump($data[0][0]["date_recognized"]["date"]);
+		// $distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");
+		// var_dump($distinct_data["time_ins"]);
 	}
 }

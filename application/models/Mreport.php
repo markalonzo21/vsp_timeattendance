@@ -11,23 +11,22 @@ class Mreport extends CI_Model
 	public function all()
 	{
 		date_default_timezone_set('Asia/Kuala_Lumpur');
-		return $this->mongo_db->where(array('date_recognized.date' => date('m/d/Y')))->order_by(array('date_recognized' => FALSE))->get('time_logs');
+		return $this->mongo_db->order_by(array('date_recognized' => FALSE))->where(array("date_recognized.date" => date('m/d/Y')))->get('time_logs');
 	}
 
 	public function distinct_all()
 	{
 		// check attendance
-		$names = $this->mongo_db->where(array('date_recognized.date' => date('m/d/Y')))->distinct("time_logs", "emp_name");
+		$names = $this->mongo_db->distinct("time_logs", "emp_name");
 
 		// harvest time logs
 		for($i = 0; $i < count($names); $i++)
 		{
-			$data["time_ins"][] = $this->mongo_db->where(array('emp_name' => $names[$i], 'date_recognized.date' => date('m/d/Y')))->limit(1)->select(array("date_recognized"), array('_id'))->get('time_logs');
+			$data["time_ins"][] = $this->mongo_db->where(array('emp_name' => $names[$i]))->limit(1)->select(array("date_recognized", "emp_name"), array('_id'))->get('time_logs');
 
-			$data["time_outs"][] = $this->mongo_db->where(array('emp_name' => $names[$i], 'date_recognized.date' => date('m/d/Y')))->order_by(array('date_recognized' => FALSE))->limit(1)->select(array('date_recognized'), array('_id'))->get('time_logs');	
+			$data["time_outs"][] = $this->mongo_db->where(array('emp_name' => $names[$i]))->order_by(array('date_recognized' => FALSE))->limit(1)->select(array('date_recognized'), array('_id'))->get('time_logs');	
 		}
 		$data["names"] = $names;
-		// var_dump($data["time_ins"][0][0]['date_recognized']["time"]);
 		return $data;
 	}
 
@@ -41,7 +40,7 @@ class Mreport extends CI_Model
 			for($i = 0; $i < count($names); $i++)
 			{
 				$data["time_ins"][] = $this->mongo_db->where(array('emp_name' => $names[$i], 'date_recognized.date' => $dateRange[0]))
-					->limit(1)->select(array("date_recognized"), array('_id'))->get('time_logs');
+					->limit(1)->select(array("date_recognized","emp_name"), array('_id'))->get('time_logs');
 				$data["time_outs"][] = $this->mongo_db->where(array('emp_name' => $names[$i], 'date_recognized.date' => $dateRange[0]))
 					->order_by(array('date_recognized' => FALSE))->limit(1)->select(array('date_recognized'), array('_id'))->get('time_logs');	
 			}
@@ -95,5 +94,13 @@ class Mreport extends CI_Model
 		{
 			return $this->mongo_db->where_between("date_recognized.date", $dateRange[0], $dateRange[1])->get("time_logs");
 		}
+	}
+
+	public function getAllDate()
+	{
+		$data[0] = $this->mongo_db->select(array("date_recognized.date"), array("_id"))->limit(1)->get("time_logs");
+		$data[1] = $this->mongo_db->order_by(array("date_recognized.date" => FALSE))
+		->select(array("date_recognized.date"), array("_id"))->limit(1)->get("time_logs");
+		return $data;
 	}
 }
