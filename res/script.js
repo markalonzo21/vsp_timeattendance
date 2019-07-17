@@ -28,6 +28,16 @@ function pollEvent(timestamp){
 
 $(document).ready(function(){
 
+	$('#sidebar-menu li').on('click',function(){
+		$(this).addClass('active').siblings().removeClass('active');
+	});
+
+	$("#notif").load("employee/trackRecord");
+
+	setInterval(function(){
+		$("#notif").load("employee/trackRecord");
+	}, 10000);
+
 	$('#genReport').click(function(){
 		var date_range = $("#dateRange").val();
 		var coded = $.base64.encode(date_range);
@@ -85,28 +95,5 @@ $(document).ready(function(){
 	    }
 	});
 
-	$("#notif").load("employee/trackRecord");
-
-	setInterval(function(){
-		$("#notif").load("employee/trackRecord");
-	}, 10000);
-
-	// Add active class to the current button (highlight it)
-	// var header = document.getElementById("sidebar-menu");
-	// var btns = header.getElementsByClassName("menu");
-	// for (var i = 0; i < btns.length; i++) {
-	//   btns[i].addEventListener("click", function() {
-	//   var current = document.getElementsByClassName("active");
-	//   current[0].className = current[0].className.replace(" active", "");
-	//   this.className += " active";
-	//   });
-	// }
-	// $('.menu').click(function(){
- //    	$('.menu').removeClass("active");
- //    	$(this).addClass("active");
-	// });
-	$('#sidebar-menu li').on('click',function(){
-		$(this).addClass('active').siblings().removeClass('active');
-	});
 });
 

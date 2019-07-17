@@ -28,10 +28,10 @@
 $config['mongo_db']['active'] = 'default';
 
 $config['mongo_db']['default']['no_auth'] = FALSE;
-$config['mongo_db']['default']['hostname'] = '22.19.16.89';
+$config['mongo_db']['default']['hostname'] = '22.19.16.105';
 $config['mongo_db']['default']['port'] = '27017';
 $config['mongo_db']['default']['username'] = 'vsp';
-$config['mongo_db']['default']['password'] = '123456';
+$config['mongo_db']['default']['password'] = 'fastb00t';
 $config['mongo_db']['default']['database'] = 'ci_timeattendance';
 $config['mongo_db']['default']['db_debug'] = TRUE;
 $config['mongo_db']['default']['return_as'] = 'array';

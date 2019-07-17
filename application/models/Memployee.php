@@ -68,11 +68,19 @@ class Memployee extends CI_Model
 		$count = count($this->cloudDataPeople());
 		// get the last count of record data from cloud
 		$last_count = $this->mongo_db->order_by(array('cloud_count'=>FALSE))->limit(1)->get('registered_no');
+		
+		$new_count = empty($last_count) ? 0 : $last_count[0]["cloud_count"];
+		// fresh
+		if($new_count == 0)
+		{
+			echo $count;
+			return 0;
+		}
 		// check if record is update to cloud
-		if($count > $last_count[0]["cloud_count"])
+		if($count > $new_count)
 		{
 			// there's a unsave data from cloud
-			$json =  json_encode($count - $last_count[0]["cloud_count"]);
+			$json =  json_encode($count - $new_count);
 			echo $json;
 			// return index (where to start)
 			return $count - $json;
