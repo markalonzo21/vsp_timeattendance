@@ -2,11 +2,8 @@
 
 class Memployee extends CI_Model
 {	
-	// constructor
-	public function __construct()
-	{
-		parent::__construct();
-	}
+	// creds
+	private $headers = array();
 
 	// servers
 	private $urls = array(
@@ -15,11 +12,16 @@ class Memployee extends CI_Model
 		"eventsPoll" => "https://cv-event.int2.real.com/event/status?since="
 		);
 
-	// creds
-	private $headers = array(
-			'AUTHORIZATION:test',
-			'X-RPC-AUTHORIZATION:thevaluesystems:fastb00t'
+	// constructor
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('msettings');
+		$this->headers = array(
+			'AUTHORIZATION:'.$this->msettings->directory(),
+			'X-RPC-AUTHORIZATION:'.$this->msettings->credentials()
 		);
+	}
 
 	// register new people manually
 	public function create($inputs)

@@ -86,7 +86,10 @@ canvas{
     background-color: #009118;
 }
 .mt_5{
-    margin-top: 5px
+    margin-top: 5px;
+}
+.mt_20{
+    margin-top: 20px;
 }
 .login_logo{
     margin-bottom: 15px;
@@ -153,4 +156,7 @@ canvas{
 #dateRange{
     width: auto;
     display: inline-block;
+}
+.settings-form{
+    margin: 25px 0;
 }

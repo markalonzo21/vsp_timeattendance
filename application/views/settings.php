@@ -6,31 +6,34 @@
 				<?php echo $this->session->flashdata('info'); ?>
 			</div>
 			<?php endif; ?>
-        <!-- <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary outline-custom" id="update_records"><img src="https://img.icons8.com/windows/20/000000/approve-and-update.png"><a href="<?php echo site_url('employee/updateRecords') ;?>">Update Records <span class="badge badge-danger" id="notif"></span></a>
-        	</button>
-        </div>
-        <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary outline-custom" id="update_records" data-toggle="modal" data-target="#register_modal">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Add Employee
-        	</button>
-        </div>
-		</div> -->
 	</div>
 	<div class="settings">
-		<form>
-			<div class="form-row">
+
+		<form method="POST" accept-charset="utf-8" action="<?php echo site_url('settings/update'); ?>">
+			<div class="form-row settings-form">
 				<div class="col">
 					<label for="directory">Directory</label>
-					<input class="form-control" name="directory" placeholder="Enter Directory" />
+					<input class="form-control" type="text" name="directory" value="<?php if($data){ echo $data[0]['directory']; } ?>" placeholder="Enter Directory" />
 				</div>
 				<div class="col">
 					<label></label>
 				</div>
 			</div>
+			<div class="form-row settings-form">
+				<div class="col">
+					<label for="username">Username</label>
+					<input class="form-control" name="username" type="text" value="<?php if($data){ echo $data[0]['username']; } ?>" placeholder="Enter Username" />
+				</div>
+				<div class="col">
+					<label for="password">Password</label>
+					<input class="form-control" name="password" type="password" placeholder="Enter Password" />
+				</div>
+			</div>
 			<div class="row">
-				<button class="btn btn-success mt_5 btn-login" type="submit">Save</button>
+				<div class="col">
+					<button class="btn btn-success btn-block mt_20 btn-login" type="submit">Save</button>
+				</div>
+				<div class="col"></div>
 			</div>
 		</form>
 	</div>

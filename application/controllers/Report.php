@@ -174,7 +174,9 @@ class Report extends CI_Controller
 
 	public function testing()
 	{
-		var_dump($this->mreport->distinct_dates());
+		$this->load->model('msettings');
+		
+		var_dump($this->msettings->getSettings());
 		// $data = $this->mreport->getAllDate();
 		// var_dump($data[0][0]["date_recognized"]["date"]);
 		// $distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");
