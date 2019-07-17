@@ -60,6 +60,12 @@
 				              Reports
 				            </a>
 				        </li>
+				        <li class="nav-item menu">
+				            <a class="nav-link" href="<?php echo site_url('settings'); ?>">
+				              <img src="<?php echo site_url('res/img/gear.png'); ?>">
+				              Settings
+				            </a>
+				        </li>
 					</ul>
 					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span>Archive</span>
