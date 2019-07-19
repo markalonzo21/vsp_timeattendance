@@ -12,6 +12,11 @@ class Report extends CI_Controller
 		parent::__construct();
 		$this->load->model('memployee');
 		$this->load->model('mreport');
+
+		if(!$this->session->userdata('_id')){
+			header('Location: '.site_url('login'));
+			$this->session->set_flashdata('error','You Must Logged in first');
+		}
 	}
 
 	public function index()
@@ -176,7 +181,8 @@ class Report extends CI_Controller
 	{
 		$this->load->model('msettings');
 		
-		var_dump($this->msettings->getSettings());
+		var_dump($this->memployee->tallyData());
+		// var_dump($this->msettings->getSettings());
 		// $data = $this->mreport->getAllDate();
 		// var_dump($data[0][0]["date_recognized"]["date"]);
 		// $distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");

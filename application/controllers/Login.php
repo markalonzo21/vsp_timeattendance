@@ -29,7 +29,7 @@ class Login extends CI_Controller
 				$this->session->set_userdata($sess);
 				if($this->session->userdata("_id"))
 				{
-					redirect('home');
+					redirect('report');
 				}
 			}
 			else
@@ -51,12 +51,4 @@ class Login extends CI_Controller
 		$this->session->set_flashdata('info', 'Thanks for Stopping by! :)');
 		redirect('login');
 	}
-
-	// public function getData()
-	// {
-	// 	$result["result"] = $this->mongo_db->get('users');
-	// 	$this->load->view('template/header');
-	// 	$this->load->view('login', $result);
-	// 	$this->load->view('template/footer');
-	// }
 }

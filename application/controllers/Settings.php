@@ -7,6 +7,11 @@ class Settings extends CI_Controller
 	{
 		parent:: __construct();
 		$this->load->model('msettings');
+
+		if(!$this->session->userdata('_id')){
+			header('Location: '.site_url('login'));
+			$this->session->set_flashdata('error','You Must Logged in first');
+		}
 	}
 
 	public function index()

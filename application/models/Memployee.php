@@ -21,6 +21,8 @@ class Memployee extends CI_Model
 			'AUTHORIZATION:'.$this->msettings->directory(),
 			'X-RPC-AUTHORIZATION:'.$this->msettings->credentials()
 		);
+
+		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 
 	// register new people manually
@@ -69,7 +71,7 @@ class Memployee extends CI_Model
 	{
 		$count = count($this->cloudDataPeople());
 		// get the last count of record data from cloud
-		$last_count = $this->mongo_db->order_by(array('cloud_count'=>FALSE))->limit(1)->get('registered_no');
+		$last_count = $this->mongo_db->order_by(array('_id'=>FALSE))->limit(1)->get('registered_no');
 		
 		$new_count = empty($last_count) ? 0 : $last_count[0]["cloud_count"];
 		// fresh
@@ -78,7 +80,7 @@ class Memployee extends CI_Model
 			echo $count;
 			return 0;
 		}
-		// check if record is update to cloud
+		// check if record is updated to cloud
 		if($count > $new_count)
 		{
 			// there's a unsave data from cloud
@@ -156,25 +158,32 @@ class Memployee extends CI_Model
 		// update old records
 		if($index)
 		{
-			// gather inputs
-			for ($i=$index; $i < $cloud_count; $i++)
-			{
-				$inputs[] = array(
-						'emp_name' => $cloud[$index]["name"],
-	    				'position' => "N/A",
-	    				'date_registed' => date('m/d/Y h:i:s', $cloud[$index]["rootPersonAddDate"] / 1000),
-	    				'personId' => $cloud[$index]["personId"],
-	    				'fr' => TRUE
-				);
-			}
 			// single data
-			if($len - $index == 1)
+			if(count($inputs) == 1)
 			{
+				$inputs = array(
+					'emp_name' => $cloud[$index]["name"],
+		    		'position' => "N/A",
+		    		'date_registed' => date('m/d/Y h:i:s', $cloud[$index]["rootPersonAddDate"] / 1000),
+		    		'personId' => $cloud[$index]["personId"],
+		    		'fr' => TRUE
+				);
 				$this->mongo_db->insert('employees', $inputs);
 			}
 			// bulk data
 			else
 			{
+				// gather inputs
+				for ($i=$index; $i < $cloud_count; $i++)
+				{
+					$inputs[] = array(
+							'emp_name' => $cloud[$i]["name"],
+		    				'position' => "N/A",
+		    				'date_registed' => date('m/d/Y h:i:s', $cloud[$i]["rootPersonAddDate"] / 1000),
+		    				'personId' => $cloud[$i]["personId"],
+		    				'fr' => TRUE
+					);
+				}
 				$this->mongo_db->batch_insert('employees', $inputs);
 			}
 		}

@@ -52,22 +52,30 @@ class MSettings extends CI_Model
 	public function _id()
 	{
 		$result = $this->mongo_db->select(array('_id'))->limit(1)->get('settings');
-		return $result[0]['_id'];
+		if($result)
+		{
+			return $result[0]['_id'];	
+		}
 	}
 
 	public function directory()
 	{
 		$result = $this->mongo_db->select(array('directory'), array('_id'))->get('settings');
-		return $result[0]['directory'];
+		if($result)
+		{
+			return $result[0]['directory'];	
+		}
 	}
 
 	public function credentials()
 	{
 		$result = $this->mongo_db->select(array('password','username'), array('_id'))->get('settings');
-		$password = $result[0]['password'];
-		$username = $result[0]['username'];
-
-		return $username.":".$password;
+		if($result)
+		{
+			$password = $result[0]['password'];
+			$username = $result[0]['username'];
+			return $username.":".$password;
+		}
 	}
 
 }
