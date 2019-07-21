@@ -26,7 +26,7 @@
 	<?php if($this->session->userdata('_id')): ?>
 	<nav class="navbar navbar-dark fixed-top bg-custom flex-md-nowrap p-0 shadow">
 		<a href="#" class="navbar-brand col-sm-3 col-md-2 mr-0">THE VALUESYSTEMSPHILS. INC.</a>
-		<input type="text" name="" id="" class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search">
+		<input type="text" id="searchEngine" class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search">
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a href="<?php echo site_url('login/signout'); ?>" class="nav-link">Sign out</a></li>
 		</ul>

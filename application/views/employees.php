@@ -36,9 +36,9 @@
 			<tbody id="emp_table">
 				<?php foreach ($result as $key => $value): ?>
 				<tr>
-					<td><?php echo ucfirst($value["emp_name"]);?></td>
-					<td><?php echo $value["position"];?></td>
-					<td><?php echo $value["date_registed"];?></td>
+					<td class="td-col"><?php echo ucfirst($value["emp_name"]);?></td>
+					<td class="td-col"><?php echo $value["position"];?></td>
+					<td class="td-col"><?php echo $value["date_registed"];?></td>
 					<td><a href="<?php echo site_url('employee/edit/'.$value["_id"]); ?>" class="emp_link edit">Edit</a> <a href="<?php echo site_url('employee/delete/'.$value["_id"]); ?>" class="emp_link delete" onClick="javascript: return confirm('Are you sure?');">Delete</a> </td>
 				</tr>
 				<?php endforeach; ?>

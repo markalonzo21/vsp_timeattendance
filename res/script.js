@@ -1,35 +1,29 @@
 function pollEvent(timestamp){
 
-	var lastModData = timestamp;
+	var modDate = timestamp;
 
 	$.ajax({
 		type: 'GET',
-		url: 'report/pollEvent/'+lastModData,
+		url: 'report/pollEvent/'+modDate,
 		success: function(data){
+			$("#emp_table").load('report/displayData');	
 			pollEvent(data);
 		}
 	});
 }
 
-// // function display_logs(){
-// // 	$.ajax({
-// // 		type: 'GET',
-// // 		url: 'report/displayData',
-// // 		success: function(data){
-// // 			if(data){
-// // 				var html = '<tr>';
-// // 				html += '<td>'+data[0]['name']+'</td></tr>';
-// // 				$('#emp_table').prepend(html);
-// // 			}
-// // 			console.log(data);
-// // 		}
-// // 	});
-// // }
-
 $(document).ready(function(){
 
-	$('#sidebar-menu li').on('click',function(){
+	$('#sidebar-menu li').click(function(){
 		$(this).addClass('active').siblings().removeClass('active');
+	});
+
+	$("#searchEngine").keyup(function(){
+		var input = $(this).val().toLowerCase();
+		$("#emp_table tr").filter(function(){
+			$(this).toggle($(this).text().toLowerCase().indexOf(input) > -1)
+		});
+		console.log(input);
 	});
 
 	$("#notif").load("employee/trackRecord");
@@ -94,6 +88,5 @@ $(document).ready(function(){
 	        }
 	    }
 	});
-
 });
 

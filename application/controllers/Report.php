@@ -29,9 +29,18 @@ class Report extends CI_Controller
 
 	public function displayData()
 	{
-		$data = json_encode($this->mreport->all());
-
-		echo $data;
+		$data = $this->mreport->all();
+		foreach ($data as $key => $value) {
+			echo "
+				<tr>
+				<td>". ucfirst($value["emp_name"]) ."</td>
+				<td>". $value["date_recognized"]["date"]." ".$value["date_recognized"]["time"] ."</td>
+				<td>". $value["idClass"] ."</td>
+				<td>". ((array_key_exists("source", $value)) ? $value["source"] : 'N/A') ."</td>
+				<td>". ((array_key_exists("device", $value)) ? $value["device"] : 'Web') ."</td>
+				</tr>
+			";	
+		}
 	}
 
 	//live feed from cloud data
@@ -39,6 +48,7 @@ class Report extends CI_Controller
 	{
 		set_time_limit(0);
 		clearstatcache();
+		// $lastmodDate = $timestamp;		
 		if($timestamp == 'undefined')
 		{
 			$timestamp = round(microtime(true) * 1000);
@@ -58,6 +68,7 @@ class Report extends CI_Controller
 			$inputs = array();
 			for($i=0; $i < count($data); $i++)
 			{
+				// noconcern = employee || concern = vip
 				if($data[$i]["idClass"] == "noconcern" || $data[$i]["idClass"] == "concern")
 				{
 					$inputs = array(
@@ -79,6 +90,10 @@ class Report extends CI_Controller
 	// Template Report
 	public function generateReport($date=null)
 	{
+		// $diff = 0;
+		// $start_date = 0;
+		// $range_date = 0;
+
 		if(isset($date))
 		{
 			$range_date = base64_decode($date);
@@ -99,18 +114,16 @@ class Report extends CI_Controller
 			
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
 		// /////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
 		for($i = 0; $i <= $diff; $i++)
 		{
 			$date = strtotime("+".$i." day", strtotime($start_date));
-			$title = date('m-d-Y', $date);
+			$title = date('d-m-Y', $date);
 			${"worksheet$i"} = clone $spreadsheet->getSheetByName('Sheet1');
 			${"worksheet$i"}->setTitle($title);
 			$spreadsheet->addSheet(${"worksheet$i"});
 			$spreadsheet->setActiveSheetIndexByName($title);
 
-			$new_title = date('d/m/Y', strtotime($title));
+			$new_title = date('m/d/Y', strtotime($title));
 			// TIME LOGS START HERE
 			$col = 6;
 			for($x = 0; $x < count($data); $x++)
@@ -151,10 +164,9 @@ class Report extends CI_Controller
 					        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(22, $dailies_col, date('H:i:s', strtotime($distinct_data["time_outs"][$y][0]['date_recognized']["time"])) );
 					        	$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow(26, $dailies_col, number_format(((strtotime($distinct_data["time_outs"][$y][0]['date_recognized']["time"]) - strtotime($distinct_data["time_ins"][$y][0]['date_recognized']["time"]))/3600), 2)  );
 				        		$dailies_col++;
-		   					}   			
+		   					}		
 		        		}
 	        		}
-	        		
 	        	}
 	        }
 	        // DAILY TIME IN AND OUT ENDS HERE
@@ -181,11 +193,6 @@ class Report extends CI_Controller
 	{
 		$this->load->model('msettings');
 		
-		var_dump($this->memployee->tallyData());
-		// var_dump($this->msettings->getSettings());
-		// $data = $this->mreport->getAllDate();
-		// var_dump($data[0][0]["date_recognized"]["date"]);
-		// $distinct_data = $this->mreport->distinct_range("07/04/2019 - 07/05/2019");
-		// var_dump($distinct_data["time_ins"]);
+		var_dump($this->memployee->cloudDataEventsPoll(round(microtime(true) * 1000)));
 	}
 }

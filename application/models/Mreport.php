@@ -77,8 +77,6 @@ class Mreport extends CI_Model
 			}
 			$data["names"] = $names;
 			return $data;
-
-			// return $this->mongo_db->where_between("date_recognized.date", $dateRange[0], $dateRange[1])->get("time_logs");
 		}
 	}
 

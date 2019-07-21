@@ -22,14 +22,14 @@
 					<th>USER AGENT</th>
 				</tr>
 			</thead>
-			<tbody id="emp_table">
+			<tbody id="emp_table" class="report">
 				<?php foreach ($result as $key => $value): ?>
 				<tr>
-					<td><?php echo $value["emp_name"]; ?></td>
-					<td><?php echo $value["date_recognized"]["date"]." ".$value["date_recognized"]["time"]; ?></td>
-					<td><?php echo $value["idClass"]; ?></td>
-					<td><?php echo (array_key_exists("source", $value)) ? $value["source"] : 'N/A'; ?></td>
-					<td><?php echo (array_key_exists("device", $value)) ? $value["device"] : 'Web'; ?></td>
+					<td class="td-col"><?php echo ucfirst($value["emp_name"]); ?></td>
+					<td class="td-col"><?php echo $value["date_recognized"]["date"]." ".$value["date_recognized"]["time"]; ?></td>
+					<td class="td-col"><?php echo $value["idClass"]; ?></td>
+					<td class="td-col"><?php echo (array_key_exists("source", $value)) ? $value["source"] : 'N/A'; ?></td>
+					<td class="td-col"><?php echo (array_key_exists("device", $value)) ? $value["device"] : 'Web'; ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
