@@ -14,9 +14,9 @@ function pollEvent(timestamp){
 
 $(document).ready(function(){
 
-	$('#sidebar-menu li').click(function(){
-		$(this).addClass('active').siblings().removeClass('active');
-	});
+	$('ul#sidebar-menu li a').filter(function(){
+		return this.href == location.href
+	}).parent().addClass('active').siblings().removeClass('active');
 
 	$("#searchEngine").keyup(function(){
 		var input = $(this).val().toLowerCase();
