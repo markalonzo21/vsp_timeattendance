@@ -104,6 +104,6 @@ class Mreport extends CI_Model
 
 	public function distinct_dates()
 	{
-		return $this->mongo_db->distinct("time_logs", "date_recognized.date");
+		return $this->mongo_db->order_by(array("date_recognized.date" => FALSE))->distinct("time_logs", "date_recognized.date");
 	}
 }
