@@ -189,10 +189,25 @@ class Report extends CI_Controller
 		return $writer->save('php://output');
 	}
 
+	public function reportByDate($date)
+	{
+		$data = $this->mreport->reportByDate(base64_decode($date));
+		foreach ($data as $key => $value) {
+			echo "
+				<tr>
+				<td>". ucfirst($value["emp_name"]) ."</td>
+				<td>". $value["date_recognized"]["date"]." ".$value["date_recognized"]["time"] ."</td>
+				<td>". $value["idClass"] ."</td>
+				<td>". ((array_key_exists("source", $value)) ? $value["source"] : 'N/A') ."</td>
+				<td>". ((array_key_exists("device", $value)) ? $value["device"] : 'Web') ."</td>
+				</tr>
+			";	
+		}
+	}
+
 	public function testing()
 	{
 		$this->load->model('msettings');
-		
-		var_dump($this->memployee->cloudDataEventsPoll(round(microtime(true) * 1000)));
+		var_dump($this->mreport->reportByDate('08/16/2019'));
 	}
 }

@@ -10,7 +10,6 @@
         	</div>
 		</div>
 	</div>
-	<!-- <?php //echo date("m/d/Y");?> -->
 	<div class="table-responsive">
 		<table class="table table-striped table-sm">
 			<thead>

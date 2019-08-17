@@ -26,11 +26,11 @@ $(document).ready(function(){
 		// console.log(input);
 	});
 
-	$("#notif").load("employee/trackRecord");
+	// $("#notif").load("employee/trackRecord");
 
-	setInterval(function(){
-		$("#notif").load("employee/trackRecord");
-	}, 10000);
+	// setInterval(function(){
+	// 	$("#notif").load("employee/trackRecord");
+	// }, 10000);
 
 	$('#genReport').click(function(){
 		var date_range = $("#dateRange").val();
@@ -47,7 +47,24 @@ $(document).ready(function(){
 		toggleSelected: false
 	});
 
-	pollEvent();
+	// pollEvent();
+
+	$('.report-link').on('click', function(event){
+		let date = $(this)[0].innerText;
+
+		var new_date = new Date(date),
+			yr = new_date.getFullYear(),
+			day = new_date.getDate()  < 10 ? '0' + new_date.getDate()  : new_date.getDate()
+			new_date.setMonth(new_date.getMonth() + 1)
+		var month = new_date.getMonth() < 10 ? '0' + new_date.getMonth() : new_date.getMonth(),
+		newDate = month + '/' + day + '/' + yr;
+		console.log(newDate);
+
+		$('#report-modal-h5')[0].innerText = date;
+		$('#report_modal').modal('show');
+		var coded = $.base64.encode(newDate);
+		$('#report_table').load('report/reportByDate/'+ coded);
+	});
 
 	if(window.location.pathname.split('/')[2] == 'home')
 	{
@@ -91,5 +108,8 @@ $(document).ready(function(){
 			}
 		});
 	}
+
+	let reportModalH5 = document.getElementById('report-modal-h5');
+	let reportLink = document.getElementById('report-link');
 });
 

@@ -11,7 +11,7 @@ class Mreport extends CI_Model
 	public function all()
 	{
 		date_default_timezone_set('Asia/Kuala_Lumpur');
-		return $this->mongo_db->order_by(array('date_recognized' => FALSE))->where(array("date_recognized.date" => date('m/d/Y')))->get('time_logs');
+		return $this->mongo_db->order_by(array('date_recognized.time' => FALSE))->where(array("date_recognized.date" => date('m/d/Y')))->get('time_logs');
 	}
 
 	public function distinct_all()
@@ -104,6 +104,13 @@ class Mreport extends CI_Model
 
 	public function distinct_dates()
 	{
-		return $this->mongo_db->order_by(array("date_recognized.date" => FALSE))->distinct("time_logs", "date_recognized.date");
+		$dates = $this->mongo_db->distinct("time_logs", "date_recognized.date");
+		sort($dates);
+		return $dates;
+	}
+
+	public function reportByDate($date)
+	{
+		return $this->mongo_db->where(array("date_recognized.date" => $date))->get("time_logs");
 	}
 }

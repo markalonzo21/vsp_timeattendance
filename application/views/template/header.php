@@ -68,7 +68,7 @@
 						<?php $result = $this->mreport->distinct_dates(); ?>
 						<?php for($i = 0; $i < count($result); $i++): ?>
 							<li class="nav-item">
-								<a href="#" class="nav-link">
+								<a href="#" class="nav-link report-link" data-toggle="modal" data-target="#report-modal">
 									<img src="<?php echo site_url('res/img/file.png'); ?>">
 									<?php echo date('F d, Y', strtotime($result[$i])); ?>
 								</a>
@@ -78,3 +78,34 @@
 				</div>
 			</nav>
 	<?php endif; ?>
+
+	<!--Report Modal -->
+<div class="modal fade  bd-example-modal-xl" id="report_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-green">
+        <h5 class="modal-title" id="report-modal-h5"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th>EMPLOYEE NAME</th>
+						<th>DATE RECOGNIZED</th>
+						<th>TYPE</th>
+						<th>SOURCE</th>
+						<th>USER AGENT</th>
+					</tr>
+				</thead>
+				<tbody id="report_table" class="report">
+				</tbody>
+			</table>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>

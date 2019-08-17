@@ -33,13 +33,13 @@
 					<th>ACTIONS</th>
 				</tr>
 			</thead>
-			<tbody id="emp_table">
+			<tbody>
 				<?php foreach ($result as $key => $value): ?>
 				<tr>
 					<td class="td-col"><?php echo ucfirst($value["emp_name"]);?></td>
 					<td class="td-col"><?php echo $value["position"];?></td>
 					<td class="td-col"><?php echo $value["date_registed"];?></td>
-					<td><a href="<?php echo site_url('employee/edit/'.$value["_id"]); ?>" class="emp_link edit">Edit</a> <a href="<?php echo site_url('employee/delete/'.$value["_id"]); ?>" class="emp_link delete" onClick="javascript: return confirm('Are you sure?');">Delete</a> </td>
+					<td><a href="#" id="dtr-report" class="emp_link btn-primary">DTR</a> <a href="<?php echo site_url('employee/edit/'.$value["_id"]); ?>" class="emp_link edit">Edit</a> <a href="<?php echo site_url('employee/delete/'.$value["_id"]); ?>" class="emp_link delete" onClick="javascript: return confirm('Are you sure?');">Delete</a> </td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
