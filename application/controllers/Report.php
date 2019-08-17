@@ -39,7 +39,7 @@ class Report extends CI_Controller
 				<td>". ((array_key_exists("source", $value)) ? $value["source"] : 'N/A') ."</td>
 				<td>". ((array_key_exists("device", $value)) ? $value["device"] : 'Web') ."</td>
 				</tr>
-			";	
+			";
 		}
 	}
 

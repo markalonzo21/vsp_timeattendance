@@ -77,18 +77,23 @@ class Memployee extends CI_Model
 		// fresh
 		if($new_count == 0)
 		{
-			echo $count;
+			$this->notifNumber($count);
 			return 0;
 		}
 		// check if record is updated to cloud
 		if($count > $new_count)
 		{
 			// there's a unsave data from cloud
-			$json =  json_encode($count - $new_count);
-			echo $json;
+			$json = $count - $new_count;
+			$this->notifNumber($json);
 			// return index (where to start)
 			return $count - $json;
 		}
+	}
+
+	public function notifNumber($count)
+	{
+		// echo $count;
 	}
 
 	// get people data via cloud

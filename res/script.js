@@ -12,6 +12,18 @@ function pollEvent(timestamp){
 	});
 }
 
+function trackPersonCount()
+{
+	$.ajax({
+		type: 'GET',
+		url: 'employee/trackRecord',
+		success: function(data){
+			// $("#notif")[0].innerText = data;
+			// console.log(data);
+		}
+	})
+}
+
 $(document).ready(function(){
 	
 	$('ul#sidebar-menu li a').filter(function(){
@@ -26,11 +38,11 @@ $(document).ready(function(){
 		// console.log(input);
 	});
 
-	// $("#notif").load("employee/trackRecord");
-
-	// setInterval(function(){
-	// 	$("#notif").load("employee/trackRecord");
-	// }, 10000);
+	trackPersonCount();
+	setInterval(function(){
+		// $("#notif").load("employee/trackRecord");
+		trackPersonCount();
+	}, 10000);
 
 	$('#genReport').click(function(){
 		var date_range = $("#dateRange").val();
@@ -58,7 +70,7 @@ $(document).ready(function(){
 			new_date.setMonth(new_date.getMonth() + 1)
 		var month = new_date.getMonth() < 10 ? '0' + new_date.getMonth() : new_date.getMonth(),
 		newDate = month + '/' + day + '/' + yr;
-		console.log(newDate);
+		// console.log(newDate);
 
 		$('#report-modal-h5')[0].innerText = date;
 		$('#report_modal').modal('show');
